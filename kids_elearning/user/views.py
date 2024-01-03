@@ -9,7 +9,7 @@ def login_view(request):
             user = form.get_user()
             login(request, user)# set the session
             print(user.user_type, 'this is the type')
-            return redirect(f'{user.user_type}:home')  # Redirect based on user type
+            return redirect(f'{user.user_type}:home{user.user_type}')  # Redirect based on user type
     else:
         form = CustomAuthenticationForm()
 
