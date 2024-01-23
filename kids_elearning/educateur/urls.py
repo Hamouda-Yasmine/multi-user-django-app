@@ -1,10 +1,11 @@
 
 from django.urls import path
-from .views import educateur_home
+from .views import SignupEducateurView
 
 app_name = 'educateur'
 
 urlpatterns = [
-    path('homeeducateur/', educateur_home ,name='homeeducateur'),
+    
+    path('signupEducateur/',SignupEducateurView.as_view(),name='signupEducateur')
     
 ]

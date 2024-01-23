@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import psychologue_home
+from .views import SignupPsyView
 
 app_name = 'psychologue'
 
-urlpatterns = [
-    path('homepsychologue/', psychologue_home ,name='homepsychologue'),
+urlpatterns = [ path('signupPsychologue/',SignupPsyView.as_view(),name='psychosignup')
+   
     
 ]

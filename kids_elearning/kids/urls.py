@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import kids_home
+from .views import SignupKidsView
 
 app_name = 'kids'
 
 urlpatterns = [
-    path('homekids/', kids_home,name='homekids'),
+
+    path('signupKids/',SignupKidsView.as_view(),name='signupKids'),
    
 ]

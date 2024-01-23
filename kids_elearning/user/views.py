@@ -1,7 +1,5 @@
 from django.contrib.auth import  login,authenticate
-from django.shortcuts import render, redirect
-from .forms import CustomAuthenticationForm
-from django.http import JsonResponse
+
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from django.utils.decorators import method_decorator
 from rest_framework.permissions import AllowAny

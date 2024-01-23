@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 import { Container } from "reactstrap";
 import "./header.css";
+import { useAppState } from "../../app/App";
+import { useNavigate } from "react-router-dom";
 
 const navLinks = [
   {
@@ -28,8 +30,11 @@ const navLinks = [
 ];
 
 const Header = () => {
-  const menuRef = useRef();
 
+  const{state,setState}=useAppState();
+ 
+  const menuRef = useRef();
+  const navigate = useNavigate();
   const menuToggle = () => menuRef.current.classList.toggle("active__menu");
 
   return (
@@ -52,10 +57,34 @@ const Header = () => {
                 ))}
               </ul>
             </div>
-
+            
             <div className="nav__right">
               <p className="mb-0 d-flex align-items-center gap-2 nav__item">
-               <a href="/login">Log in</a>
+
+              {state.user ? (
+            
+            <div>
+              <span>Welcome, {state.user.username}</span>
+              <button
+                onClick={() => {
+                  // Clear user state
+                  setState((prev) => ({ ...prev, user: null }));
+
+                  // Remove user from localStorage
+                  localStorage.removeItem('user');
+
+                  // Redirect to the logout page
+                  navigate('/');
+                }}
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+         
+            <a href="/login">Log in</a>
+            
+          )}
              
               </p>
              
