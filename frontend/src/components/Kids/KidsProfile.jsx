@@ -15,8 +15,12 @@ import {
   FaInstagram,
   FaTwitter,
 } from "react-icons/fa";
-import UserProfile from "../Login-Register/UserProfile";
+import UserProfile from "../Profile/UserProfile";
+import { useAppState } from "../../app/App";
+import ProfileBox from "../Profile/ProfileBox";
 const KidsProfile = () => {
+  const { state, setState } = useAppState();
+
   return (
     <Box
       p={4}
@@ -25,41 +29,7 @@ const KidsProfile = () => {
         <Box
           w="25%"
           mr={4}>
-          <Box
-            bg="white"
-            shadow="base"
-            p={4}
-            borderRadius="md"
-            textAlign="center">
-            <Avatar
-              size="xl"
-              src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-              mb={2}
-            />
-            <Text fontWeight="bold">Johnatan Smith</Text>
-            <Text
-              color="gray.500"
-              fontSize="sm"
-              mb={2}>
-              Full Stack Developer
-            </Text>
-            <Text
-              color="gray.500"
-              fontSize="sm"
-              mb={4}>
-              Bay Area, San Francisco, CA
-            </Text>
-            <Button
-              colorScheme="blue"
-              mr={2}>
-              Follow
-            </Button>
-            <Button
-              colorScheme="blue"
-              variant="outline">
-              Message
-            </Button>
-          </Box>
+           <ProfileBox/>
 
           <Box
             bg="white"

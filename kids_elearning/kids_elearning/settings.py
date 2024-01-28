@@ -80,7 +80,8 @@ REST_FRAMEWORK = {
     ),
 }
 ROOT_URLCONF = 'kids_elearning.urls'
-
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = False
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

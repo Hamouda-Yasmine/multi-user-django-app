@@ -4,6 +4,7 @@ import "./header.css";
 import { useAppState } from "../../app/App";
 import { useNavigate } from "react-router-dom";
 
+
 const navLinks = [
   {
     display: "Home",
@@ -81,8 +82,14 @@ const Header = () => {
               </button>
             </div>
           ) : (
-         
-            <a href="/login">Log in</a>
+          <div>
+              <a href="/login">Log in</a>
+            
+          </div>
+           
+           
+            
+           
             
           )}
              

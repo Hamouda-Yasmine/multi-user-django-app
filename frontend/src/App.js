@@ -1,9 +1,9 @@
 import Home from "./pages/Home";
 import Login from "./components/Login-Register/Login"
-import Header from "./components/Header/Header";
+//import Header from "./components/Header/Header";
 import Educateur from "./components/Educateur/Educateur"
 import EducateurSignup from "./components/Educateur/EducateurSignup";
-
+import Navbar from "./components/Header/Navbar"
 import KidsSignup from "./components/Kids/KidsSignup";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Footer from "./components/Footer/Footer";
@@ -12,7 +12,7 @@ import Psychologue from "./components/Psychologue/Psychologue";
 import PsychoSignup from "./components/Psychologue/PsychoSignup";
 import PsychoProfile from "./components/Psychologue/PsychoProfile";
 import AboutUs from "./components/About-us/AboutUs";
-import UserProfile from "./components/Login-Register/UserProfile";
+import UserProfile from "./components/Profile/UserProfile";
 import KidsProfile from "./components/Kids/KidsProfile";
 import { AppProvider} from './app/App';
 import EducateurProfile from "./components/Educateur/EducateurProfile";
@@ -33,8 +33,8 @@ function App() {
 
       <BrowserRouter >
         
-        <Header />
- 
+     
+       <Navbar/>
          <Routes>
           
           <Route path='/login' element={<Login/>}></Route>

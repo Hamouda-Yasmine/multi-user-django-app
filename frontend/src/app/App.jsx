@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState,useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 export const AppContext = createContext();
 
@@ -11,30 +11,20 @@ export const useAppState = () => {
 // App context provider component
 export const AppProvider = ({ children }) => {
   const [state, setState] = useState({
-    user: null,});
+    user: null,
+  });
   useEffect(() => {
-    if (localStorage.getItem('user')){
-     const storedUser = JSON.parse(localStorage.getItem('user'));
-     if (storedUser) {
-      setState((prev) => ({ ...prev, user: storedUser }));
+    if (localStorage.getItem("user")) {
+      console.log(JSON.parse(localStorage.getItem("user")));
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (storedUser) {
+        setState((prev) => ({ ...prev, user: storedUser }));
+      }
     }
-    }
-    
   }, []);
   return (
-
- 
     <AppContext.Provider value={[state, setState]}>
-      
       {children}
     </AppContext.Provider>
   );
 };
-
-
-
-
-
-
-
-
