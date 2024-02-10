@@ -48,9 +48,11 @@ import { useAppState } from '../../app/App';
           setState((prev) => ({
             ...prev,
             user: response.data.user,
+            data:response.data.data,
           }));
-          //storege the user 
+          //storage the user 
           localStorage.setItem('user', JSON.stringify(response.data.user));
+          localStorage.setItem('data', JSON.stringify(response.data.data));
          // localStorage.setItem('token', JSON.stringify(response.data.tokens));
        
         } else {

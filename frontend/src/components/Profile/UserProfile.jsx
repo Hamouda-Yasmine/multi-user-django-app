@@ -39,11 +39,12 @@ const ProfilePage = () => {
     confirmPassword: true,
   });
   //const{state}=useAppState();
-  useEffect(() => {
+ // setUserData(state.user)
+ useEffect(() => {
     // Retrieve user data from local storage
     if(localStorage.getItem("user"))
    { const storedUserData = JSON.parse(localStorage.getItem("user")) || {};
-    setUserData(storedUserData);}
+  setUserData(storedUserData);}
   }, []);
 
   const handleChange = (e) => {

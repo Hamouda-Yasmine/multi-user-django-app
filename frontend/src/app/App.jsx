@@ -12,13 +12,15 @@ export const useAppState = () => {
 export const AppProvider = ({ children }) => {
   const [state, setState] = useState({
     user: null,
+    data:null,
   });
   useEffect(() => {
     if (localStorage.getItem("user")) {
       console.log(JSON.parse(localStorage.getItem("user")));
       const storedUser = JSON.parse(localStorage.getItem("user"));
+      const storedData=JSON.parse(localStorage.getItem("data"));
       if (storedUser) {
-        setState((prev) => ({ ...prev, user: storedUser }));
+        setState((prev) => ({ ...prev, user: storedUser,data:storedData }));
       }
     }
   }, []);

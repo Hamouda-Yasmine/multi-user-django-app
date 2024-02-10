@@ -10,6 +10,9 @@ from .tokens import create_jwt_pair_for_user
 from rest_framework import generics, mixins, status
 from .serializers import UserSerializer
 from .models import User
+from educateur import models as me, serializers as se
+from kids import models as mk, serializers as sk
+from psychologue import models as mp,serializers as sp
 
 
 
@@ -31,11 +34,24 @@ class LoginUserView(APIView):
             tokens = create_jwt_pair_for_user(user)
             user_serializer = UserSerializer(user)
             serialized_user = user_serializer.data
+            match user.user_type:
+             case "educateur":
+               data = me.Educateur.objects.get(user_id=user.id)  
+               serialized_data=se.EducateurSerializer(data).data
+             case "kids":
+               data = mk.Kids.objects.get(user_id=user.id)  
+               serialized_data=sk.KidsSerializer(data).data
+             case "psychologe":
+               data = mp.Psychologue.objects.get(user_id=user.id)  
+               serialized_data=sp.PsySerializer(data).data
+            
+                
 
             response = {
                 "message": "Login Successful",
                 "tokens":tokens,
                 "user": serialized_user,
+                "data":serialized_data,
             }
             
             return Response(data=response, status=status.HTTP_200_OK)
@@ -54,8 +70,8 @@ class UserRetrieveUpdateDeleteView(
     queryset = User.objects.all()
    
 
-    """def get(self, request: Request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)"""
+    def get(self, request: Request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
     def put(self, request: Request, *args, **kwargs):
         return self.update(request, *args, **kwargs)

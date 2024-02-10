@@ -141,11 +141,25 @@ export default function NavigationBar() {
                   </Center>
 
                   <MenuDivider />
-                  <MenuItem>Your Servers</MenuItem>
+                  <MenuItem 
+                  onClick={() => {
+                    
+
+                    // Redirect to the Profile page
+                    if (state.user.user_type ==="kids"){
+                      navigate("/kids")
+                    }else if(state.user.user_type==="educateur"){
+                      navigate("/educateur")
+
+                    }else{
+                      navigate("/psychologue")
+                    }
+                  
+                  }}>Mon compte</MenuItem>
                   <MenuItem onClick={() => {
                     
 
-                      // Redirect to the logout page
+                      // Redirect to the Profile page
                       if (state.user.user_type ==="kids"){
                         navigate("/kids_profile")
                       }else if(state.user.user_type==="educateur"){
@@ -156,7 +170,7 @@ export default function NavigationBar() {
                       }
                     
                     }}
-                  >Profile</MenuItem>
+                  >Profil</MenuItem>
                   <MenuItem
                     onClick={() => {
                       // Clear user state

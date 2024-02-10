@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Kids
 
 
-class PostSerializer(serializers.ModelSerializer):
+class KidsSerializer(serializers.ModelSerializer):
     
 
     class Meta:

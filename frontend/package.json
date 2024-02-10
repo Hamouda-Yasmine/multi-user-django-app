@@ -6,6 +6,8 @@
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",
+    "@ckeditor/ckeditor5-build-classic": "^41.1.0",
+    "@ckeditor/ckeditor5-react": "^6.2.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -24,6 +26,7 @@
     "react-router-dom": "^6.21.1",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
+    "react-star-ratings": "^2.3.0",
     "reactstrap": "^9.2.1",
     "remixicon": "^4.0.1",
     "slick-carousel": "^1.8.1",

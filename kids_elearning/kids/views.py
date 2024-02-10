@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from user.tokens import create_jwt_pair_for_user
 from django.utils.decorators import method_decorator
 from user.serializers import UserSerializer
+from .serializers import KidsSerializer
 
 @method_decorator(csrf_protect, name='dispatch')
 class SignupKidsView(APIView):
@@ -48,3 +49,14 @@ class SignupKidsView(APIView):
                 response ={ 'error': 'Something went wrong when registering account' } 
                 return Response(date=response,status=status.HTTP_400_BAD_REQUEST)
 
+class KidsDetail(generics.RetrieveAPIView,mixins.UpdateModelMixin,):
+    queryset = Kids.objects.all()
+    serializer_class = KidsSerializer
+    #getting the kid by the user id
+    lookup_field = 'user_id'
+
+    def get(self, request: Request, *args, **kwargs):
+     return self.retrieve(request, *args, **kwargs)
+    
+    def put(self, request: Request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)

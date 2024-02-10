@@ -48,6 +48,7 @@ function PsychoSignup() {
          user: response.data.user,
        }));
        //storege the user 
+       console.log('this is the psycho ',response.data.psy)
        localStorage.setItem('user', JSON.stringify(response.data.user));
        navigate('/psychologue');
     

@@ -1,9 +1,11 @@
 import {
-  Avatar,
   Box,
   Button,
   Flex,
+  FormControl,
+  FormLabel,
   Icon,
+  Input,
   List,
   ListItem,
   Text,
@@ -18,8 +20,44 @@ import {
 import UserProfile from "../Profile/UserProfile";
 import { useAppState } from "../../app/App";
 import ProfileBox from "../Profile/ProfileBox";
+import { useEffect, useState } from "react";
+import axios from "axios";
 const KidsProfile = () => {
-  const { state, setState } = useAppState();
+  const [kids, setKids] = useState({});
+  const { state } = useAppState();
+
+  // Fetch the kids data when the component mounts
+  useEffect(() => {
+    axios
+      .get(`/kids/kidsdetail/${state.user.id}`)
+      .then((response) => {
+        setKids(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  }, []);
+
+  // Update the kids data when the user types in the input fields
+  const handleChange = (event) => {
+    setKids({
+      ...kids,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  // Send a PUT request to the API when the user clicks the update button
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .put(`/kids/kidsdetail/${state.user.id}/`, kids)
+      .then((response) => {
+        setKids(response.data);
+      })
+      .catch((error) => {
+        console.error("Error updating data: ", error);
+      });
+  };
 
   return (
     <Box
@@ -29,35 +67,7 @@ const KidsProfile = () => {
         <Box
           w="25%"
           mr={4}>
-           <ProfileBox/>
-
-          <Box
-            bg="white"
-            shadow="base"
-            p={4}
-            borderRadius="md"
-            mt={4}>
-            <Text
-              color="black"
-              fontSize="lg"
-              textAlign="center"
-              mb={2}>
-              Supprimer le compte
-            </Text>
-            <Text>
-              Si vous supprimez votre compte, vos données personnelles seront
-              effacées de nos serveurs, toute votre activité dans les cours sera
-              anonymisée. Cette action est irréversible ! Annulez tout
-              abonnement actif avant de supprimer votre compte.
-            </Text>
-
-            <Button
-              textAlign="center"
-              color="red">
-              {" "}
-              Supprimer le Compte
-            </Button>
-          </Box>
+          <ProfileBox />
 
           <Box
             bg="white"
@@ -122,6 +132,40 @@ const KidsProfile = () => {
         </Box>
         <Box w="75%">
           <UserProfile />
+          <Box
+            mt={"5"}
+            bg="white"
+            shadow="base"
+            p={4}
+            borderRadius="md"
+            textAlign="center">
+            <FormControl id="user">
+              <FormLabel>User ID:</FormLabel>
+              <Input
+                type="text"
+                name="user"
+                value={kids.user}
+                isReadOnly
+              />
+            </FormControl>
+            <FormControl id="maladie">
+              <FormLabel>Maladie:</FormLabel>
+              <Input
+                type="text"
+                name="maladie"
+                value={kids.maladie}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <Flex justify="flex-end">
+              <Button
+                mt={"2"}
+                colorScheme="green"
+                onClick={handleSubmit}>
+                Sauvegarder
+              </Button>
+            </Flex>
+          </Box>
         </Box>
       </Flex>
     </Box>

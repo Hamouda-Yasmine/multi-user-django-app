@@ -1,7 +1,8 @@
 import Home from "./pages/Home";
 import Login from "./components/Login-Register/Login"
-//import Header from "./components/Header/Header";
+
 import Educateur from "./components/Educateur/Educateur"
+import CourseDetailsPage from "./components/Educateur/CourseDetailsPage";
 import EducateurSignup from "./components/Educateur/EducateurSignup";
 import Navbar from "./components/Header/Navbar"
 import KidsSignup from "./components/Kids/KidsSignup";
@@ -50,6 +51,7 @@ function App() {
           <Route  path='/educateur' element={<Educateur />}></Route>
           <Route  path='/educateur_signup' element={<EducateurSignup />}></Route>
           <Route path='/educateur_profile'element={<EducateurProfile/>}></Route> 
+          <Route path='/coursesedit/:id'element={<CourseDetailsPage/>}></Route> 
 
           <Route  path='/psychologue' element={<Psychologue />}></Route>
           <Route  path='/psychologue_signup' element={<PsychoSignup />}></Route>
