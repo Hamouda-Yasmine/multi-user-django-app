@@ -12,7 +12,7 @@ class Educateur(models.Model):
     module=models.CharField(max_length=100)
     
 class Course(models.Model):
-    slug = models.SlugField(blank=True, unique=True)
+    #slug = models.SlugField(blank=True, unique=True)
     title = models.CharField(max_length=150, unique=True)
     summary = models.TextField(null=True, blank=True)
     price=models.IntegerField(null=True, default=0)
@@ -26,20 +26,23 @@ class Course(models.Model):
 
 
 class Chapter(models.Model):
-    course=models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     title = models.CharField(max_length=150, unique=True)
 
 
 class Lesson(models.Model):
-    slug = models.SlugField(blank=True, unique=True)
+    #slug = models.SlugField(blank=True, unique=True)
     title = models.CharField(max_length=200, null=True)
-    content = models.TextField(max_length=1000, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     chapter=  models.ForeignKey(Chapter, on_delete=models.CASCADE)
+    date= models.DateTimeField( null=True)
     
 class Video(models.Model):
      course = models.ForeignKey(Course, on_delete=models.CASCADE)
      chapter=  models.ForeignKey(Chapter, on_delete=models.CASCADE) 
+     title=models.CharField(max_length=200, null=True)
      thumbnail=models.CharField(max_length=200, null=True)
      url= models.CharField(max_length=200)
      duration=models.FloatField(validators=[MinValueValidator(0.30),MaxValueValidator(60.0)])
+     date= models.DateTimeField( null=True)

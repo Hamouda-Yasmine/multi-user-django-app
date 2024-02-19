@@ -11,8 +11,8 @@ from django.shortcuts import get_object_or_404
 from user.tokens import create_jwt_pair_for_user
 from django.utils.decorators import method_decorator
 from user.serializers import UserSerializer
-from .serializers import EducateurSerializer,CourseSerializer,ChapterSerializer
-from .models import Chapter
+from .serializers import EducateurSerializer,CourseSerializer,ChapterSerializer,LessonSerializer,VideoSerializer
+from .models import Chapter,Lesson,Video
 
 
 #Signup View
@@ -78,6 +78,19 @@ class CourseCreateView(generics.CreateAPIView):
 class CourseRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    def get(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        data = serializer.data
+         
+        data['num_lessons'] = instance.lesson_set.count()
+        data['num_videos'] = instance.video_set.count()
+        # Retrieve Educateur information
+        educateur = instance.educateur
+        if educateur:
+            data['educateur_firstname'] = educateur.user.first_name
+            data['educateur_lastname'] = educateur.user.last_name
+        return Response(data)
 
 
 #View to retrieve courses by the educateur id 
@@ -86,17 +99,55 @@ class CourseListByEducateurView(generics.ListAPIView):
     def get_queryset(self):
         educateur = self.kwargs['educateur']
         return Course.objects.filter(educateur=educateur)  
-    
-#View to retreive the chapters and lessons ,Videos of the cours
-class CoursContent(APIView):
-    
-    def get(self,request:Request,cours_id:int,*args, **kwargs):
-      chapters=Chapter.objects.all(pk=cours_id)
-      
-       
-      data_serelized=ChapterSerializer(instance=chapters)
-      response={
-        "message":"post by id",
-        "data":data_serelized.data}
-      return Response(data=response,status=status.HTTP_200_OK)
 
+    
+#View to retreive the chapters and lessons ,Videos of the course
+class ChapterListView(APIView):
+    def get(self,request:Request, id_course,  *args, **kwargs):
+        print("Received course_id:", id_course)
+        chapters = Chapter.objects.filter(course=id_course)
+        data = []
+        for chapter in chapters:
+            lessons = Lesson.objects.filter(chapter=chapter)
+            videos = Video.objects.filter(chapter=chapter)
+            lesson_data = LessonSerializer(lessons, many=True).data
+            video_data = VideoSerializer(videos, many=True).data
+            data.append({
+                'id': chapter.id,
+                'title': chapter.title,
+                'lessons': lesson_data,
+                'videos': video_data
+            })
+        return Response(data, status=status.HTTP_200_OK)
+
+
+class chaptersRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Chapter.objects.all()
+    serializer_class = ChapterSerializer
+    
+
+# view to create a new chapter for the course
+class educateurChaptersCreate(generics.CreateAPIView):
+    queryset = Chapter.objects.all()
+    serializer_class = ChapterSerializer 
+
+
+# view to create a new lesson for the chapter 
+class lessonsCreate(generics.CreateAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer 
+
+class lessonRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer  
+
+
+
+# view to create a new video for the chapter 
+class videoCreate(generics.CreateAPIView):
+    queryset=Video.objects.all()
+    serializer_class=VideoSerializer
+
+class videoRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Video.objects.all()
+    serializer_class = VideoSerializer

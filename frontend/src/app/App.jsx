@@ -11,8 +11,8 @@ export const useAppState = () => {
 // App context provider component
 export const AppProvider = ({ children }) => {
   const [state, setState] = useState({
-    user: null,
-    data:null,
+    user: JSON.parse(localStorage.getItem("user")),
+    data:JSON.parse(localStorage.getItem("data")),
   });
   useEffect(() => {
     if (localStorage.getItem("user")) {
@@ -20,7 +20,7 @@ export const AppProvider = ({ children }) => {
       const storedUser = JSON.parse(localStorage.getItem("user"));
       const storedData=JSON.parse(localStorage.getItem("data"));
       if (storedUser) {
-        setState((prev) => ({ ...prev, user: storedUser,data:storedData }));
+       setState((prev) => ({ ...prev, user: storedUser,data:storedData }));
       }
     }
   }, []);

@@ -23,7 +23,6 @@ function AddCourseModal({ isOpen, onClose, onAdd }) {
   axios.defaults.headers.common["X-CSRFToken"] = csrftoken;
   const { state } = useAppState();
   const [newCourse, setNewCourse] = useState({
-    slug: "titre3",
     title: "",
     summary: "",
     price: 0,

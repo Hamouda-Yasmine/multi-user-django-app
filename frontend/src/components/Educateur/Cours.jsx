@@ -1,39 +1,33 @@
-import { AddIcon, Icon } from "@chakra-ui/icons";
-import {
-  Badge,
-  Box,
-  Button,
-  Center,
-  Flex,
-  Image,
-  Text,
-} from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+import { Box, Button, Center, Flex, Text, useDisclosure, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import AddCourseModal from "./Modals/AddCourseModal";
 import { useAppState } from "../../app/App";
 import { Link } from "react-router-dom";
-import StarRatings from "react-star-ratings";
-import { FaBook, FaVideo, FaUserGraduate } from "react-icons/fa";
+import CourseCard from "../Course-card/CourseCard";
+import DeleteAlertDialog from "../Dialogs/DeleteAlertDialog";
+
 
 function Cours() {
+
   const { state } = useAppState();
   const [showModal, setShowModal] = useState(false);
   const [courses, setCourses] = useState([{}]);
-
+  const toast = useToast();
+   //get the courses from the database
   useEffect(() => {
-    //get the courses from the database
-    console.log("this is educateur", state.data);
+   console.log("this is educateur", state.data);
     axios
       .get(`/educateur/educateurCourses/${state.data.id}/`)
       .then((response) => {
         setCourses(response.data);
-        console.log(response.data);
+      
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+  }, [state.data]);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -47,43 +41,58 @@ function Cours() {
     setCourses([...courses, newCourse]);
     setShowModal(false);
   };
+
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [deleteId, setDeleteId] = useState(null);
+  const handleDelete = (id) => {
+    setDeleteId(id);
+    onOpen();
+  };
+  //deleting a course by the id
+  const handleConfirmDeleteCourse = async () => {
+    try {
+       await axios.delete(
+        `/educateur/CourseCRUD/${deleteId}/`
+      );
+      setCourses((prevItems) => prevItems.filter((item) => item.id !== deleteId));
+      toast({
+        title: "Success",
+        description: "La suppretion a été effectuer avec succés.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      onClose();
+    } catch (error) {
+      console.error("Error deleting chapter:", error);
+      toast({
+        title: "Error",
+        description: "La suppression a échoué.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
   return (
     <Flex wrap="wrap">
       {courses.map((course, index) => (
-        <Box
-          maxW="sm"
-          borderWidth="1px"
-          borderRadius="lg"
-          overflow="hidden"
-          m={3}
+        <CourseCard
+          id={course.id}
           key={index}>
-          <Image
-            src={course.image}
-            alt={course.title}
-          />
-
-          <Box p="6">
-            <Box
-              d="flex"
-              alignItems="baseline"></Box>
-
-            <Box
-              mt="1"
-              fontWeight="semibold"
-              as="h4"
-              lineHeight="tight">
-              {course.title}
-            </Box>
-
-            <Text>{course.summary}</Text>
-            <Text>{course.price}</Text>
-
-            <Link to={`/coursesedit/${course.id}`}>
-              <Button mt={3}>Editer le cours</Button>
-            </Link>
-          </Box>
-        </Box>
+            {console.log("herse the id inside the component ",course.title)}
+          <Link to={`/coursesedit/${course.id}`}>
+            <Button mt={3}>Editer le cours</Button>
+          </Link>
+          <Button onClick={ ()=>handleDelete(course.id)}>Supprimer le cours</Button>
+        </CourseCard>
       ))}
+         <DeleteAlertDialog
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  onConfirm={handleConfirmDeleteCourse}
+                />
 
       {/* Add New course Card */}
       <Box
@@ -113,104 +122,7 @@ function Cours() {
           <Text mt={-1}>Ajouter un nouveau cours</Text>
         </Center>
       </Box>
-      <Box
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden">
-        <Image
-          src="path_to_your_image"
-          alt="course image"
-        />
 
-        <Box p="6">
-          <Box
-            d="flex"
-            alignItems="baseline">
-            <Badge
-              borderRadius="full"
-              px="2"
-              colorScheme="teal">
-              New
-            </Badge>
-            <Box
-              color="gray.500"
-              fontWeight="semibold"
-              letterSpacing="wide"
-              fontSize="xs"
-              textTransform="uppercase"
-              ml="2">
-              <Icon
-                as={FaBook}
-                mr="2"
-              />
-              12 Lessons
-              <Icon
-                as={FaVideo}
-                ml="4"
-                mr="2"
-              />
-              65 Videos
-              <Icon
-                as={FaUserGraduate}
-                ml="4"
-                mr="2"
-              />
-              4.0 Enroll Students
-            </Box>
-          </Box>
-
-          <Box
-            mt="1"
-            fontWeight="semibold"
-            as="h4"
-            lineHeight="tight"
-            isTruncated>
-            React Front To Back
-          </Box>
-
-          <Box>
-            $60{" "}
-            <Box
-              as="span"
-              color="gray.600"
-              fontSize="sm">
-              {" "}
-              $120
-            </Box>
-          </Box>
-
-          <Box
-            d="flex"
-            mt="2"
-            alignItems="center">
-            <StarRatings
-              rating={4}
-              starRatedColor="blue"
-              numberOfStars={5}
-              name="rating"
-            />
-            {/* Add number of reviews */}
-          </Box>
-
-          <Text mt="2">
-            It is a long established fact that a reader will be distracted.
-          </Text>
-
-          <Box
-            d="flex"
-            mt="2"
-            alignItems="center">
-            <Text>By Claudia Pruitt In Designing</Text>
-          </Box>
-
-          <Button
-            mt="3"
-            colorScheme="teal"
-            variant="outline">
-            Learn More
-          </Button>
-        </Box>
-      </Box>
       {/* Modal for Adding New Course */}
       <AddCourseModal
         isOpen={showModal}
