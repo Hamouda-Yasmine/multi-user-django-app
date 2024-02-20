@@ -19,16 +19,19 @@ import {
   useToast,
   Text,
   useDisclosure,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import LessonModal from "./Modals/LessonModal";
 import EditLessonVideoModal from "./Modals/EditLessonVideoModal";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import DeleteAlertDialog from "../Dialogs/DeleteAlertDialog";
 import { TbEyeEdit } from "react-icons/tb";
 import EditChapterModal from "./Modals/EditChapterModal";
-
+import EditCourseForm from "./EditCourseForm";
 const CourseDetailsPage = () => {
   const { id } = useParams();
   const id_course = id;
@@ -190,7 +193,7 @@ const CourseDetailsPage = () => {
       });
     }
   };
-/*deleting a lesson or a video */
+  /*deleting a lesson or a video */
   const [item, setItem] = useState();
   const [isLessonDeleteOpen, setIsLessonDeleteOpen] = useState(false);
   // deleting a lesson or a video by the id
@@ -227,13 +230,35 @@ const CourseDetailsPage = () => {
   };
 
   return (
-    <Box p="4">
+    <Box p="5" 
+    shadow="base"
+ 
+    borderRadius="md">
+      <Breadcrumb>
+  <BreadcrumbItem>
+    <BreadcrumbLink as={Link} to='/educateur'>
+      Mes cours
+    </BreadcrumbLink>
+  </BreadcrumbItem>
+ 
+  <BreadcrumbItem isCurrentPage>
+    <BreadcrumbLink>Page actuelle</BreadcrumbLink>
+  </BreadcrumbItem>
+</Breadcrumb>
       <Heading
-        as="h1"
+        as="h3"
+        size="1xl"
+        mb="4">
+        Les informations de votre cours
+      </Heading>
+       <EditCourseForm  />
+      <Heading
+        as="h3"
         size="1xl"
         mb="4">
         Ajouter du contenue a votre cours
       </Heading>
+     
       <form onSubmit={handleSubmit}>
         <Flex mb="4">
           <Input

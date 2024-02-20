@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Badge, Box, Image, Text } from "@chakra-ui/react";
 import StarRatings from "react-star-ratings";
 import { FaBook, FaVideo, FaUserGraduate } from "react-icons/fa";
-import { AddIcon, Icon } from "@chakra-ui/icons";
+import { Icon } from "@chakra-ui/icons";
 import axios from "axios";
 function CourseCard({ id, children }) {
   const [course, setCourse] = useState({});

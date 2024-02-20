@@ -77,6 +77,7 @@ function Cours() {
   };
   return (
     <Flex wrap="wrap">
+      
       {courses.map((course, index) => (
         <CourseCard
           id={course.id}

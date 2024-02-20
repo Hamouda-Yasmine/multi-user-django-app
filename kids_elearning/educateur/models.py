@@ -22,7 +22,7 @@ class Course(models.Model):
     level = models.CharField(max_length=25, choices=LEVEL, null=True)
     educateur = models.ForeignKey(Educateur, on_delete=models.CASCADE)
     upload_time = models.DateTimeField(auto_now=False, auto_now_add=True, null=True)
-    categorie=models.CharField(max_length=150, unique=True)
+    categorie=models.CharField(max_length=150)
 
 
 class Chapter(models.Model):

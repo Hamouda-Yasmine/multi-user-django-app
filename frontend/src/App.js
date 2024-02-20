@@ -17,7 +17,7 @@ import UserProfile from "./components/Profile/UserProfile";
 import KidsProfile from "./components/Kids/KidsProfile";
 import { AppProvider} from './app/App';
 import EducateurProfile from "./components/Educateur/EducateurProfile";
-
+import AllCoursesSection from "./components/Nos-offres/AllCoursesSection";
 
 
 function App() {
@@ -42,6 +42,7 @@ function App() {
           <Route exact path='/' element={<Home />}></Route>
           <Route path="/userprofile" element={<UserProfile/>}> </Route>
           <Route  path='/about' element={<AboutUs/>}></Route>
+          <Route path='/all_courses' element={<AllCoursesSection/>}></Route>
 
 
           <Route path='/kids' element={<Kids/>}></Route>

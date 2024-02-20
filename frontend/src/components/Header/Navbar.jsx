@@ -430,7 +430,7 @@ const NAV_ITEMS = [
       {
         label: "Cours interactifs",
         subLabel: "Adaptés à tous les niveaux.",
-        href: "#",
+        href: "/all_courses",
       },
       {
         label: "Jeux éducatifs",

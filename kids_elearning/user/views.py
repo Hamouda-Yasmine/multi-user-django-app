@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .tokens import create_jwt_pair_for_user
 from rest_framework import generics, mixins, status
+from rest_framework.generics import ListAPIView
 from .serializers import UserSerializer
 from .models import User
 from educateur import models as me, serializers as se
@@ -79,3 +80,7 @@ class UserRetrieveUpdateDeleteView(
     def delete(self, request: Request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
+"""class view to retrieve all courses that exist in the data"""
+class AllCoursesRetrieve(ListAPIView):
+    queryset = me.Course.objects.all()
+    serializer_class = se.CourseSerializer
