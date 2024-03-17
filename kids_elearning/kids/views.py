@@ -3,13 +3,14 @@ from user.models import User
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Kids
+from .models import *
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, mixins, status
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from user.tokens import create_jwt_pair_for_user
 from django.utils.decorators import method_decorator
 from user.serializers import UserSerializer
-from .serializers import KidsSerializer
+from .serializers import *
 
 @method_decorator(csrf_protect, name='dispatch')
 class SignupKidsView(APIView):
@@ -60,3 +61,19 @@ class KidsDetail(generics.RetrieveAPIView,mixins.UpdateModelMixin,):
     
     def put(self, request: Request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+    
+    
+class CreateTakenCourse(generics.CreateAPIView):
+    queryset = TakenCourse.objects.all()
+    serializer_class = TakenCourseSerializer 
+
+
+class CourseProgressView(generics.ListCreateAPIView):
+    queryset = CourseProgress.objects.all()
+    serializer_class = CourseProgressSerializer
+
+    def get_queryset(self):
+        kid_id = self.kwargs.get('kid_id')
+        course_id = self.kwargs.get('course_id')
+        taken_course = get_object_or_404(TakenCourse, kid=kid_id, course=course_id)
+        return CourseProgress.objects.filter(id=taken_course.progress_id)

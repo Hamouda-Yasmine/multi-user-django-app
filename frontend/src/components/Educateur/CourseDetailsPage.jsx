@@ -32,6 +32,7 @@ import DeleteAlertDialog from "../Dialogs/DeleteAlertDialog";
 import { TbEyeEdit } from "react-icons/tb";
 import EditChapterModal from "./Modals/EditChapterModal";
 import EditCourseForm from "./EditCourseForm";
+import FeatureForm from "./FeatureForm";
 const CourseDetailsPage = () => {
   const { id } = useParams();
   const id_course = id;
@@ -252,6 +253,7 @@ const CourseDetailsPage = () => {
         Les informations de votre cours
       </Heading>
        <EditCourseForm  />
+       <FeatureForm />
       <Heading
         as="h3"
         size="1xl"

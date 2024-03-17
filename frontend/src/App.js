@@ -18,6 +18,8 @@ import KidsProfile from "./components/Kids/KidsProfile";
 import { AppProvider} from './app/App';
 import EducateurProfile from "./components/Educateur/EducateurProfile";
 import AllCoursesSection from "./components/Nos-offres/AllCoursesSection";
+import CourseDetails from "./components/Nos-offres/CourseDetails";
+import TakenCourse from "./components/Kids/TakenCourse";
 
 
 function App() {
@@ -43,11 +45,12 @@ function App() {
           <Route path="/userprofile" element={<UserProfile/>}> </Route>
           <Route  path='/about' element={<AboutUs/>}></Route>
           <Route path='/all_courses' element={<AllCoursesSection/>}></Route>
-
+          <Route path='/course_details/:id' element={<CourseDetails/>}></Route>
 
           <Route path='/kids' element={<Kids/>}></Route>
           <Route path='/kids_signup' element={<KidsSignup/>}></Route>
           <Route path='/kids_profile'element={<KidsProfile/>}></Route> 
+          <Route path='/taken_course/:id' element={<TakenCourse/>}></Route>
            
           <Route  path='/educateur' element={<Educateur />}></Route>
           <Route  path='/educateur_signup' element={<EducateurSignup />}></Route>

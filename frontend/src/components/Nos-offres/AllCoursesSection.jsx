@@ -14,7 +14,11 @@ function AllCoursesSection() {
     axios
       .get(`/user/getallCourses/`)
       .then((response) => {
-        setCourses(response.data);
+        // Sort the data by the date of creation in descending order
+        const sortedCourses = response.data.sort((a, b) => {
+          return new Date(b.upload_time) - new Date(a.upload_time);
+        });
+        setCourses(sortedCourses);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -75,17 +79,15 @@ function AllCoursesSection() {
           templateColumns="repeat(auto-fill, minmax(250px, 1fr))"
           gap={6}>
           {/* Course Card */}
-         
-         
+
           {courses.map((course, index) => (
             <CourseCard
               id={course.id}
               key={index}>
               {console.log("herse the id inside the component ", course.title)}
-              <Link to={`/coursesedit/${course.id}`}>
-                <Button mt={3}>Editer le cours</Button>
+              <Link to={`/course_details/${course.id}`}>
+                <Button mt={3}> Consulter le cours</Button>
               </Link>
-             
             </CourseCard>
           ))}
         </Grid>
